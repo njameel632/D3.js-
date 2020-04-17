@@ -2,7 +2,7 @@
 //Chart Parameters
 
 var svgWidth = 690;
-var svgHeight = 500;
+var svgHeight = 400;
 
 var margin = {
   top: 60,
@@ -89,6 +89,8 @@ d3.csv("assets/data/data.csv").then(function (censusdata) {
       .attr('r', '10')
       .attr('fill', 'green')
       
+    
+      
       
     var textGroup = chartGroup.selectAll('text')
       .exit()
@@ -106,31 +108,28 @@ d3.csv("assets/data/data.csv").then(function (censusdata) {
       .attr('fill', 'white');
     
     
-// Appending ToolTip to Div
-    
-var toolTip = d3.tip()
-    .attr('class', 'tooltip')
-    .offset([80, -60])
-    .html(function(d){
-      return (`State: ${d.state}<br>Poverty: ${d.poverty}<br>Lacks Healthcare: ${d.healthcare}`)
-    })
+
 
 // Creating A tooltip in chartGroup
 
-chartGroup.call(toolTip);
 
-// Create Event Listeners
-circlesGroup.on('click', function(data, index){
-  toolTip.show(data, this);
-})
+// Creating Axes Labels
 
-// On Mouseout
+chartGroup.append('text')
+.attr('transform', 'rotate(-90)')
+.attr('y', 0 - margin.left )
+.attr('x', 0 -(chartHeight/1.5))
+.attr('dy', '1em')
+.attr('class', 'axisText')
+.text("Lacks Healthcare (%)")
 
-.on('mouseout', function(data, index){
-  toolTip.hide(data);
-})
+chartGroup.append("text")
+    .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top - 10 })`)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "16px")
+    .attr("fill", "Black")
+    .text("Poverty (%)");
 
-
-
-
-})
+}).catch(function(error) {
+  console.log(error);
+});
